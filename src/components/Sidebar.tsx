@@ -1,6 +1,3 @@
-'use client'
-
-import { useRouter } from 'next/navigation'
 import type { Route, RouteType } from '@/lib/types'
 
 type Filter = 'all' | RouteType
@@ -20,12 +17,7 @@ export default function Sidebar({
   onSelect: (id: string) => void
   onToggle: (id: string) => void
 }) {
-  const router = useRouter()
   const visible = routes.filter(r => filter === 'all' || r.type === filter)
-
-  const goToMap = () => {
-    router.push('/map')
-  }
 
   return (
     <aside className="w-72 border-r border-[#1f2530] bg-[#111318] flex flex-col overflow-hidden shrink-0">
@@ -33,10 +25,7 @@ export default function Sidebar({
         {(['all', 'truck', 'bike'] as const).map(f => (
           <button
             key={f}
-            onClick={() => {
-              onFilterChange(f)
-              goToMap()
-            }}
+            onClick={() => onFilterChange(f)}
             className={`flex-1 text-[11px] font-medium py-1.5 rounded transition-all ${
               filter === f
                 ? f === 'truck'
@@ -56,10 +45,7 @@ export default function Sidebar({
         {visible.map(route => (
           <div
             key={route.id}
-            onClick={() => {
-              onSelect(route.id)
-              goToMap()
-            }}
+            onClick={() => onSelect(route.id)}
             className={`rounded-lg border cursor-pointer transition-all p-3 ${
               selected === route.id
                 ? route.type === 'truck'
@@ -83,7 +69,6 @@ export default function Sidebar({
                 onClick={e => {
                   e.stopPropagation()
                   onToggle(route.id)
-                  goToMap()
                 }}
                 className={`w-8 h-4 rounded-full transition-all relative ${
                   route.active ? (route.type === 'truck' ? 'bg-[#f97316]' : 'bg-[#22c55e]') : 'bg-[#2d3748]'
@@ -115,10 +100,7 @@ export default function Sidebar({
       </div>
 
       <div className="p-3 border-t border-[#1f2530]">
-        <button
-          onClick={goToMap}
-          className="w-full text-[11px] font-medium py-2 rounded border border-dashed border-[#2d3748] text-[#64748b] hover:border-[#3b82f6] hover:text-[#3b82f6] transition-all"
-        >
+        <button className="w-full text-[11px] font-medium py-2 rounded border border-dashed border-[#2d3748] text-[#64748b] hover:border-[#3b82f6] hover:text-[#3b82f6] transition-all">
           + Add Route
         </button>
       </div>

@@ -59,6 +59,7 @@ export default function BostonMap({
 }) {
   const selectedRoute = routes.find(r => r.id === selected)
   const selectedStops = useMemo(() => new Set(selectedRoute?.stops ?? []), [selectedRoute])
+  const nodeIds = useMemo(() => Object.keys(NODES), [])
 
   return (
     <MapContainer
@@ -72,7 +73,7 @@ export default function BostonMap({
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <FitBounds nodeIds={Object.keys(NODES)} selectedRoute={selectedRoute} />
+      <FitBounds nodeIds={nodeIds} selectedRoute={selectedRoute} />
 
       {routes.map(route => {
         const isSelected = route.id === selected
