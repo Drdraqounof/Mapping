@@ -15,6 +15,15 @@ an unoptimized baseline.
 - Route list with filtering, active/inactive toggles, and a detail panel
   showing distance, duration, fuel cost, CO₂ output, and stop sequence
 
+## Tech stack
+
+- [Next.js](https://nextjs.org/) (App Router, Turbopack) + React + TypeScript
+- [Tailwind CSS](https://tailwindcss.com/) v4 for styling
+- [Leaflet](https://leafletjs.com/) + [react-leaflet](https://react-leaflet.js.org/) for the map
+- [OSRM](https://project-osrm.org/) public routing API for street-following route geometry
+- [EIA Open Data API](https://www.eia.gov/opendata/) for live regional gas prices
+- [OpenStreetMap](https://www.openstreetmap.org/) tiles (dark theme via CSS filter)
+
 ## Getting started
 
 ```bash
