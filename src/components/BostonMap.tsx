@@ -3,9 +3,9 @@
 import { useEffect, useMemo } from 'react'
 import { MapContainer, TileLayer, Marker, Polyline, Tooltip, useMap } from 'react-leaflet'
 import L from 'leaflet'
-import { NODES, BOSTON_CENTER } from '@/data/nodes'
-import { ROUTE_COLOR } from '@/lib/theme'
-import type { Route } from '@/lib/types'
+import { NODES, BOSTON_CENTER } from '../data/nodes'
+import { ROUTE_COLOR } from '../lib/theme'
+import type { Route } from '../lib/types'
 
 function nodeIcon(type: keyof typeof NODE_COLOR, isSelected: boolean, isHovered: boolean) {
   const color = NODE_COLOR[type]

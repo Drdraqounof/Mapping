@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { NODES } from '@/data/nodes'
-import { ROUTE_DEFINITIONS } from '@/data/routes'
-import { fetchRouteGeometry } from '@/lib/osrm'
-import { TRUCK_CO2_PER_KM, truckFuelCost, inefficiencyFactor, FALLBACK_GAS_PRICE_PER_GALLON } from '@/lib/theme'
-import type { GasPriceResponse } from '@/app/api/gas-price/route'
-import type { Route } from '@/lib/types'
+import { NODES } from '../data/nodes'
+import { ROUTE_DEFINITIONS } from '../data/routes'
+import { fetchRouteGeometry } from './osrm'
+import { TRUCK_CO2_PER_KM, truckFuelCost, inefficiencyFactor, FALLBACK_GAS_PRICE_PER_GALLON } from './theme'
+import type { GasPriceResponse } from '../app/api/gas-price/route'
+import type { Route } from './types'
 
 function toCoords(stops: string[]): [number, number][] {
   return stops.filter(s => NODES[s]).map(s => [NODES[s].lat, NODES[s].lng])

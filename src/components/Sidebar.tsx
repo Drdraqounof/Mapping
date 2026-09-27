@@ -1,4 +1,4 @@
-import type { Route, RouteType } from '@/lib/types'
+import type { Route, RouteType } from '../lib/types'
 
 type Filter = 'all' | RouteType
 

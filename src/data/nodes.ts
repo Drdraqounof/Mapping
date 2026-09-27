@@ -1,4 +1,4 @@
-import type { MapNode } from '@/lib/types'
+import type { MapNode } from '../lib/types'
 
 // Real Boston-area neighborhood centroids (lat, lng)
 export const NODES: Record<string, MapNode> = {

@@ -1,4 +1,4 @@
-import type { RouteType } from '@/lib/types'
+import type { RouteType } from './types'
 
 export const ROUTE_COLOR: Record<RouteType, string> = {
   truck: '#f97316',

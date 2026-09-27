@@ -3,13 +3,13 @@
 import { useMemo, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
-import { ROUTE_DEFINITIONS } from '@/data/routes'
-import { useRoutes } from '@/lib/useRoutes'
-import Sidebar from '@/components/Sidebar'
-import RouteDetailPanel from '@/components/RouteDetailPanel'
-import type { RouteType } from '@/lib/types'
+import { ROUTE_DEFINITIONS } from '../data/routes'
+import { useRoutes } from '../lib/useRoutes'
+import Sidebar from './Sidebar'
+import RouteDetailPanel from './RouteDetailPanel'
+import type { RouteType } from '../lib/types'
 
-const BostonMap = dynamic(() => import('@/components/BostonMap'), { ssr: false })
+const BostonMap = dynamic(() => import('./BostonMap'), { ssr: false })
 
 type Filter = 'all' | RouteType
 

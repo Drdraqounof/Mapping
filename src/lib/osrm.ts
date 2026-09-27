@@ -1,4 +1,4 @@
-import type { RouteType } from '@/lib/types'
+import type { RouteType } from './types'
 
 const OSRM_PROFILE: Record<RouteType, string> = {
   truck: 'driving',

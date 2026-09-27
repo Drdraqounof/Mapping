@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { FALLBACK_GAS_PRICE_PER_GALLON } from '@/lib/theme'
+import { FALLBACK_GAS_PRICE_PER_GALLON } from '../../../lib/theme'
 
 // EIA weekly retail regular-gasoline price, PADD 1A (New England) — covers Boston.
 const EIA_URL =

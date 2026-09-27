@@ -1,8 +1,8 @@
-import { NODES } from '@/data/nodes'
-import { KPI_COLOR, KPI_MAX } from '@/lib/theme'
-import type { Route } from '@/lib/types'
-import KpiBar from '@/components/KpiBar'
-import StatCell from '@/components/StatCell'
+import { NODES } from '../data/nodes'
+import { KPI_COLOR, KPI_MAX } from '../lib/theme'
+import type { Route } from '../lib/types'
+import KpiBar from './KpiBar'
+import StatCell from './StatCell'
 
 function MetricRow({ label, value }: { label: string; value: string }) {
   return (

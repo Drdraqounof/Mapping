@@ -1,4 +1,4 @@
-import type { RouteDefinition } from '@/lib/types'
+import type { RouteDefinition } from '../lib/types'
 
 export const ROUTE_DEFINITIONS: RouteDefinition[] = [
   {
