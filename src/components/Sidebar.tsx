@@ -20,7 +20,7 @@ export default function Sidebar({
   const visible = routes.filter(r => filter === 'all' || r.type === filter)
 
   return (
-    <aside className="w-72 border-r border-[#1f2530] bg-[#111318] flex flex-col overflow-hidden shrink-0">
+    <aside className="w-full lg:w-72 border-b lg:border-b-0 lg:border-r border-[#1f2530] bg-[#111318] flex flex-col lg:overflow-hidden shrink-0">
       <div className="flex gap-1 p-3 border-b border-[#1f2530]">
         {(['all', 'truck', 'bike'] as const).map(f => (
           <button
@@ -100,8 +100,12 @@ export default function Sidebar({
       </div>
 
       <div className="p-3 border-t border-[#1f2530]">
-        <button className="w-full text-[11px] font-medium py-2 rounded border border-dashed border-[#2d3748] text-[#64748b] hover:border-[#3b82f6] hover:text-[#3b82f6] transition-all">
-          + Add Route
+        <button
+          disabled
+          title="Adding routes isn't available yet"
+          className="w-full text-[11px] font-medium py-2 rounded border border-dashed border-[#2d3748] text-[#4b5563] cursor-not-allowed"
+        >
+          + Add Route <span className="text-[#374151]">· coming soon</span>
         </button>
       </div>
     </aside>

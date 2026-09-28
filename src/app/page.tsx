@@ -1,143 +1,192 @@
-'use client'
+import Link from 'next/link'
+import { ROUTE_DEFINITIONS } from '../data/routes'
+import { NODES } from '../data/nodes'
+import { getSession } from '../lib/auth'
+import RouteSketch from '../components/RouteSketch'
 
-import { useRouter } from 'next/navigation'
+const FEATURES = [
+  {
+    title: 'Street-accurate routes',
+    body: 'Every truck and bike loop follows real Boston streets, routed through OSRM with the right driving or cycling profile.',
+    accent: '#3b82f6',
+  },
+  {
+    title: 'Real fuel costs',
+    body: "Truck costs use this week's New England retail gas price from the U.S. Energy Information Administration.",
+    accent: '#f97316',
+  },
+  {
+    title: 'Savings you can see',
+    body: 'Time, fuel and CO₂ saved against an unoptimized run, per route and across the whole active fleet.',
+    accent: '#22c55e',
+  },
+  {
+    title: 'Trucks and bikes together',
+    body: 'Filter by fleet type, switch routes on or off, and see how the mix changes your totals instantly.',
+    accent: '#a78bfa',
+  },
+]
 
-export default function Home() {
-  const router = useRouter()
+const STEPS = [
+  { n: '01', title: 'Sign in', body: 'Operators sign in with their fleet account.' },
+  { n: '02', title: 'Review the network', body: 'Every route loads onto a live map of Boston with distance, duration and stops.' },
+  { n: '03', title: 'Plan the day', body: 'Toggle routes to see what the day costs and what optimization saves.' },
+]
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    router.push('/dashboard')
-  }
+export default async function Home() {
+  const session = await getSession()
+  const cta = session ? { href: '/dashboard', label: 'Open dashboard' } : { href: '/login', label: 'Sign in' }
+  const trucks = ROUTE_DEFINITIONS.filter(r => r.type === 'truck').length
+  const bikes = ROUTE_DEFINITIONS.filter(r => r.type === 'bike').length
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#050816] text-slate-100">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(56,189,248,0.24),transparent_30%),radial-gradient(circle_at_bottom_right,_rgba(14,165,233,0.18),transparent_28%)]" />
-
-      <div className="relative mx-auto flex min-h-screen max-w-7xl items-center justify-center px-6 py-12">
-        <section className="grid w-full max-w-6xl overflow-hidden rounded-[28px] border border-white/10 bg-slate-900/75 shadow-[0_30px_80px_rgba(2,6,23,0.8)] backdrop-blur-xl md:grid-cols-[1.2fr_0.8fr]">
-          <div className="relative overflow-hidden bg-gradient-to-br from-cyan-500 via-sky-500 to-slate-950 p-8 md:p-12">
-            <div className="absolute -left-20 top-10 h-48 w-48 rounded-full bg-cyan-300/20 blur-3xl" />
-            <div className="absolute bottom-0 right-0 h-56 w-56 rounded-full bg-sky-400/15 blur-3xl" />
-
-            <div className="relative z-10 flex h-full flex-col justify-between">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 ring-1 ring-white/20 backdrop-blur-sm">
-                  <span className="text-lg font-bold text-cyan-200">R</span>
-                </div>
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-[0.28em] text-cyan-100/80">
-                    Routes
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-10 max-w-xl">
-                <p className="mb-4 inline-flex items-center rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-cyan-100/80">
-                  Fleet intelligence
-                </p>
-                <h1 className="text-4xl font-semibold tracking-tight text-white md:text-5xl">
-                  Move faster with smarter routing.
-                </h1>
-                <p className="mt-5 max-w-lg text-base text-slate-200/80 md:text-lg">
-                  Monitor live vehicle movement, balance dispatch demand, and keep every route on schedule from one streamlined control center.
-                </p>
-              </div>
-
-              <div className="mt-8 grid gap-4 sm:grid-cols-3">
-                {[
-                  { label: 'Active routes', value: '128' },
-                  { label: 'Avg. ETA', value: '12m' },
-                  { label: 'On time', value: '96%' },
-                ].map((stat) => (
-                  <div key={stat.label} className="rounded-2xl border border-white/15 bg-slate-950/20 p-4 backdrop-blur-sm">
-                    <div className="text-2xl font-semibold text-white">{stat.value}</div>
-                    <div className="mt-1 text-xs uppercase tracking-[0.18em] text-slate-200/70">
-                      {stat.label}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+    <div className="min-h-screen bg-[#050816] text-slate-100">
+      <header className="sticky top-0 z-20 border-b border-white/5 bg-[#050816]/80 backdrop-blur-md">
+        <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
+          <Link href="/" className="flex items-center gap-3">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-cyan-400/10 ring-1 ring-cyan-300/30">
+              <span className="text-base font-bold text-cyan-200">R</span>
+            </span>
+            <span className="text-xs font-medium uppercase tracking-[0.28em] text-cyan-100/80">Routes</span>
+          </Link>
+          <div className="flex items-center gap-2 text-sm sm:gap-6">
+            <a href="#features" className="hidden text-slate-400 transition hover:text-white sm:inline">
+              Features
+            </a>
+            <a href="#how" className="hidden text-slate-400 transition hover:text-white sm:inline">
+              How it works
+            </a>
+            <Link
+              href={cta.href}
+              className="rounded-full bg-cyan-400 px-4 py-2 font-semibold text-slate-950 transition hover:bg-cyan-300"
+            >
+              {cta.label}
+            </Link>
           </div>
+        </nav>
+      </header>
 
-          <div className="flex items-center bg-slate-950/70 p-8 md:p-12">
-            <div className="w-full">
-              <div className="mb-8">
-                <p className="text-sm font-medium uppercase tracking-[0.28em] text-cyan-300/80">
-                  Welcome back
-                </p>
-                <h2 className="mt-3 text-3xl font-semibold text-white">Sign in to Routes</h2>
-              </div>
-
-              <form className="space-y-5" onSubmit={handleSubmit}>
-                <div>
-                  <label htmlFor="email" className="mb-2 block text-sm font-medium text-slate-200">
-                    Email address
-                  </label>
-                  <input
-                    id="email"
-                    type="email"
-                    defaultValue="ops@routes.io"
-                    className="w-full rounded-2xl border border-slate-700 bg-slate-900/80 px-4 py-3 text-base text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="password" className="mb-2 block text-sm font-medium text-slate-200">
-                    Password
-                  </label>
-                  <input
-                    id="password"
-                    type="password"
-                    defaultValue="password123"
-                    className="w-full rounded-2xl border border-slate-700 bg-slate-900/80 px-4 py-3 text-base text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20"
-                  />
-                </div>
-
-                <div className="flex items-center justify-between gap-4 text-sm text-slate-300">
-                  <label className="inline-flex items-center gap-2">
-                    <input type="checkbox" className="h-4 w-4 rounded border-slate-600 bg-slate-800 text-cyan-400 focus:ring-cyan-500" />
-                    Remember me
-                  </label>
-                  <a href="#" className="text-cyan-300 transition hover:text-cyan-200">
-                    Forgot password?
-                  </a>
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full rounded-2xl bg-cyan-400 px-4 py-3 text-base font-semibold text-slate-950 transition hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-500/40"
-                >
-                  Sign in
-                </button>
-              </form>
-
-              <div className="mt-6 flex items-center gap-3 text-sm text-slate-400">
-                <div className="h-px flex-1 bg-slate-700" />
-                or continue with
-                <div className="h-px flex-1 bg-slate-700" />
-              </div>
-
-              <div className="mt-6 grid grid-cols-2 gap-3">
-                <button className="rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm font-medium text-slate-100 transition hover:border-slate-500">
-                  Google
-                </button>
-                <button className="rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm font-medium text-slate-100 transition hover:border-slate-500">
-                  SSO
-                </button>
-              </div>
-
-              <p className="mt-8 text-center text-sm text-slate-400">
-                Need access?{' '}
-                <a href="#" className="font-medium text-cyan-300 hover:text-cyan-200">
-                  Request an invite
-                </a>
+      <main>
+        <section className="relative overflow-hidden">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(56,189,248,0.18),transparent_40%),radial-gradient(circle_at_90%_80%,rgba(249,115,22,0.10),transparent_35%)]" />
+          <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 sm:px-6 md:py-24 lg:grid-cols-[1.05fr_0.95fr]">
+            <div>
+              <p className="mb-5 inline-flex items-center rounded-full border border-cyan-300/20 bg-cyan-400/5 px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-cyan-200/90">
+                Boston fleet optimizer
               </p>
+              <h1 className="text-4xl font-semibold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl">
+                Plan every delivery loop in one view.
+              </h1>
+              <p className="mt-6 max-w-xl text-base text-slate-300 md:text-lg">
+                Routes maps your truck and bike fleet across Boston, prices each run with real gas prices, and shows what
+                optimization saves in minutes, dollars and CO₂.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link
+                  href={cta.href}
+                  className="rounded-2xl bg-cyan-400 px-6 py-3 text-base font-semibold text-slate-950 transition hover:bg-cyan-300"
+                >
+                  {cta.label}
+                </Link>
+                <a
+                  href="#features"
+                  className="rounded-2xl border border-slate-700 px-6 py-3 text-base font-medium text-slate-200 transition hover:border-slate-500"
+                >
+                  See what it does
+                </a>
+              </div>
+
+              <dl className="mt-12 grid max-w-md grid-cols-3 gap-6 border-t border-white/10 pt-6">
+                <div>
+                  <dt className="text-xs uppercase tracking-[0.18em] text-slate-500">Truck routes</dt>
+                  <dd className="mt-1 text-2xl font-semibold text-[#f97316]">{trucks}</dd>
+                </div>
+                <div>
+                  <dt className="text-xs uppercase tracking-[0.18em] text-slate-500">Bike routes</dt>
+                  <dd className="mt-1 text-2xl font-semibold text-[#22c55e]">{bikes}</dd>
+                </div>
+                <div>
+                  <dt className="text-xs uppercase tracking-[0.18em] text-slate-500">Locations</dt>
+                  <dd className="mt-1 text-2xl font-semibold text-white">{Object.keys(NODES).length}</dd>
+                </div>
+              </dl>
+            </div>
+
+            <div className="rounded-[28px] border border-white/10 bg-[#0a0c0f] p-3 shadow-[0_30px_80px_rgba(2,6,23,0.8)]">
+              <div className="flex items-center justify-between px-3 pb-3 pt-1 text-[11px] font-mono text-slate-500">
+                <span>boston · route network</span>
+                <span className="flex items-center gap-3">
+                  <span className="flex items-center gap-1.5">
+                    <span className="h-0.5 w-3 bg-[#f97316]" /> truck
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <span className="h-0 w-3 border-t-2 border-dashed border-[#22c55e]" /> bike
+                  </span>
+                </span>
+              </div>
+              <RouteSketch className="h-auto w-full rounded-2xl bg-[#0d1016]" />
             </div>
           </div>
         </section>
-      </div>
-    </main>
+
+        <section id="features" className="scroll-mt-20 border-t border-white/5">
+          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
+            <h2 className="max-w-2xl text-3xl font-semibold tracking-tight text-white md:text-4xl">
+              Built on real routing and real prices.
+            </h2>
+            <p className="mt-4 max-w-2xl text-slate-400">
+              No made-up averages. Distances, durations and costs come from live services, with clear estimates when a
+              service is unavailable.
+            </p>
+            <div className="mt-12 grid gap-4 sm:grid-cols-2">
+              {FEATURES.map(f => (
+                <article key={f.title} className="rounded-3xl border border-white/10 bg-slate-900/40 p-6">
+                  <span className="block h-1 w-10 rounded-full" style={{ background: f.accent }} />
+                  <h3 className="mt-5 text-lg font-semibold text-white">{f.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-400">{f.body}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="how" className="scroll-mt-20 border-t border-white/5">
+          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
+            <h2 className="text-3xl font-semibold tracking-tight text-white md:text-4xl">How it works</h2>
+            <ol className="mt-12 grid gap-8 md:grid-cols-3">
+              {STEPS.map(s => (
+                <li key={s.n} className="border-t border-white/10 pt-6">
+                  <span className="font-mono text-sm text-cyan-300">{s.n}</span>
+                  <h3 className="mt-3 text-lg font-semibold text-white">{s.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-400">{s.body}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        <section className="border-t border-white/5">
+          <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-6 px-4 py-16 sm:px-6 md:flex-row md:items-center">
+            <div>
+              <h2 className="text-2xl font-semibold text-white md:text-3xl">Ready to plan today&apos;s routes?</h2>
+              <p className="mt-2 text-slate-400">Sign in to open the fleet dashboard.</p>
+            </div>
+            <Link
+              href={cta.href}
+              className="rounded-2xl bg-cyan-400 px-6 py-3 text-base font-semibold text-slate-950 transition hover:bg-cyan-300"
+            >
+              {cta.label}
+            </Link>
+          </div>
+        </section>
+      </main>
+
+      <footer className="border-t border-white/5">
+        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-8 text-xs text-slate-500 sm:flex-row sm:justify-between sm:px-6">
+          <span>Routes · Boston Fleet Optimizer</span>
+          <span>Map data © OpenStreetMap contributors · Routing by OSRM · Gas prices from EIA</span>
+        </div>
+      </footer>
+    </div>
   )
 }

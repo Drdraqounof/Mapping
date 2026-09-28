@@ -59,7 +59,7 @@ export default function RouteDetailPanel({
   const stops = selectedRoute?.stops.filter(s => NODES[s]) ?? []
 
   return (
-    <aside className="w-72 border-l border-[#1f2530] bg-[#111318] flex flex-col overflow-hidden shrink-0">
+    <aside className="w-full lg:w-72 lg:border-l border-[#1f2530] bg-[#111318] flex flex-col lg:overflow-hidden shrink-0">
       <div className="p-4 border-b border-[#1f2530]">
         <p className="text-[10px] font-mono text-[#64748b] uppercase tracking-widest mb-3">Today's Savings</p>
         <div className="space-y-3">
