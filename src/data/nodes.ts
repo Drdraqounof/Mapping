@@ -2,7 +2,8 @@ import type { MapNode } from '../lib/types'
 
 // Real Boston-area neighborhood centroids (lat, lng)
 export const NODES: Record<string, MapNode> = {
-  depot_south:   { lat: 42.3388, lng: -71.0784, label: 'South End Depot',   type: 'depot' },
+  // Starting point for every route: Wash Cycle Laundry, 626 Lynnway, Lynn, MA 01905
+  plant:         { lat: 42.4531, lng: -70.9615, label: 'Wash Cycle Laundry (Lynn)', type: 'depot' },
   depot_east:    { lat: 42.3520, lng: -71.0410, label: 'Seaport Hub',       type: 'hub'   },
   downtown:      { lat: 42.3554, lng: -71.0605, label: 'Downtown Crossing', type: 'stop'  },
   back_bay:      { lat: 42.3503, lng: -71.0810, label: 'Back Bay',          type: 'stop'  },

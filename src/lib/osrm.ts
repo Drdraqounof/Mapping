@@ -1,3 +1,4 @@
+import { BIKE_SPEED_KMH } from './theme'
 import type { RouteType } from './types'
 
 const OSRM_PROFILE: Record<RouteType, string> = {
@@ -12,14 +13,15 @@ export interface OsrmResult {
   isFallback: boolean
 }
 
-function straightLineFallback(coords: [number, number][]): OsrmResult {
+function straightLineFallback(type: RouteType, coords: [number, number][]): OsrmResult {
   let distanceKm = 0
   for (let i = 0; i < coords.length - 1; i++) {
     distanceKm += haversineKm(coords[i], coords[i + 1])
   }
   return {
     distanceKm,
-    durationMin: (distanceKm / 25) * 60, // assume 25 km/h average as a rough fallback
+    // assume 25 km/h average for trucks as a rough fallback; bikes use their usual speed
+    durationMin: (distanceKm / (type === 'bike' ? BIKE_SPEED_KMH : 25)) * 60,
     geometry: coords,
     isFallback: true,
   }
@@ -58,13 +60,15 @@ export async function fetchRouteGeometry(
       ([lng, lat]: [number, number]) => [lat, lng],
     )
 
+    const distanceKm = route.distance / 1000
     return {
-      distanceKm: route.distance / 1000,
-      durationMin: route.duration / 60,
+      distanceKm,
+      // OSRM's public server ignores the cycling profile and returns car times
+      durationMin: type === 'bike' ? (distanceKm / BIKE_SPEED_KMH) * 60 : route.duration / 60,
       geometry,
       isFallback: false,
     }
   } catch {
-    return straightLineFallback(coords)
+    return straightLineFallback(type, coords)
   }
 }

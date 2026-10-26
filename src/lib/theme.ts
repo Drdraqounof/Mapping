@@ -5,22 +5,18 @@ export const ROUTE_COLOR: Record<RouteType, string> = {
   bike: '#22c55e',
 }
 
-export const KPI_COLOR = {
-  time: '#3b82f6',
-  fuel: '#f97316',
-  co2: '#22c55e',
-}
-
-export const KPI_MAX = {
-  time: 120, // minutes
-  fuel: 80,  // USD
-  co2: 50,   // kg
+// Darker variants that stay readable on the light map tiles in the dashboard.
+export const MAP_ROUTE_COLOR: Record<RouteType, string> = {
+  truck: '#e8710a',
+  bike: '#188038',
 }
 
 // Used to derive fuel cost + emissions from real routed distance.
 export const TRUCK_MPG = 14 // typical delivery van, miles per gallon
 export const TRUCK_CO2_PER_KM = 0.77 // kg CO2/km (typical delivery van)
 export const KM_TO_MILES = 0.621371
+// Average cargo-bike speed. The public OSRM server only has car data, so bike times are distance / this speed.
+export const BIKE_SPEED_KMH = 15
 
 // Used only if the live EIA gas price API is unreachable or unconfigured.
 export const FALLBACK_GAS_PRICE_PER_GALLON = 3.5

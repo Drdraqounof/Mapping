@@ -6,7 +6,7 @@ A fleet route dashboard for Boston delivery and bike operations, with a branded 
 
 - Public homepage describing the product, with a route-network sketch drawn from the real route data
 - Sign-in with a signed, httpOnly session cookie; the dashboard is only reachable when signed in
-- Real map of Boston (OpenStreetMap tiles, dark-themed) via `react-leaflet`
+- Google Maps-style dashboard: full-screen light OpenStreetMap map via `react-leaflet`, a floating route panel (bottom sheet on phones) and a directions-style route detail view
 - Truck and bike routes rendered as real street-following paths, fetched from the OSRM public routing API (with a fallback estimate if unreachable)
 - Live regional gas prices from the [EIA Open Data API](https://www.eia.gov/opendata/), used to compute real fuel costs instead of a fixed rate
 - Route list with filtering, active/inactive toggles, and a detail panel showing distance, duration, fuel cost, CO₂ output, and stop sequence
@@ -27,7 +27,7 @@ Protected pages are checked twice: `src/proxy.ts` redirects signed-out visitors 
 - [Leaflet](https://leafletjs.com/) + [react-leaflet](https://react-leaflet.js.org/) for the map
 - [OSRM](https://project-osrm.org/) public routing API for street-following route geometry
 - [EIA Open Data API](https://www.eia.gov/opendata/) for live regional gas prices
-- [OpenStreetMap](https://www.openstreetmap.org/) tiles (dark theme via CSS filter)
+- [OpenStreetMap](https://www.openstreetmap.org/) tiles
 
 ## Getting started
 
